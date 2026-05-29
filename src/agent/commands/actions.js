@@ -286,7 +286,7 @@ export const actionsList = [
             if (success) {
                 setTimeout(() => {
                     agent.cleanKill('Safely restarting to update inventory.');
-                }, 500);
+                }, 3000);
             }
         })
     },
@@ -379,9 +379,16 @@ export const actionsList = [
         name: '!endGoal',
         description: 'Call when you have accomplished your goal. It will stop self-prompting and the current action. ',
         perform: async function (agent) {
-            agent.self_prompter.stop();
-            return 'Self-prompting stopped.';
-        }
+    	    agent.self_prompter.stop();
+    	    // restart with default self_prompt so agent doesn't go idle
+    	    const defaultPrompt = agent.prompter.profile.self_prompt;
+    	    if (defaultPrompt) {
+            	setTimeout(() => {
+            	agent.self_prompter.start(defaultPrompt);
+            	}, 3000);
+    	    }
+    	    return 'Self-prompting stopped. Setting new goal based on personality.';
+	}
     },
     {
         name: '!showVillagerTrades',

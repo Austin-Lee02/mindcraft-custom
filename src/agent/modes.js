@@ -36,10 +36,15 @@ const modes_list = [
             if (!block) block = {name: 'air'}; // hacky fix when blocks are not loaded
             if (!blockAbove) blockAbove = {name: 'air'};
             if (blockAbove.name === 'water') {
-                // does not call execute so does not interrupt other actions
-                if (!bot.pathfinder.goal) {
-                    bot.setControlState('jump', true);
-                }
+                if (bot.oxygenLevel < 10) {
+        	// air running low, surface immediately regardless of other actions
+        	execute(this, agent, async () => {
+            	await skills.moveAway(bot, 5);
+            });
+    } else if (!bot.pathfinder.goal) {
+        // only jump if not doing anything else
+        bot.setControlState('jump', true);
+    }
             }
             else if (this.fall_blocks.some(name => blockAbove.name.includes(name))) {
                 execute(this, agent, async () => {

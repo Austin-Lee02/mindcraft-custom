@@ -124,6 +124,11 @@ export class ActionManager {
             // return action status report
             return { success: true, message: output, interrupted, timedout };
         } catch (err) {
+            if (this.agent.bot.currentWindow) {
+                this.agent.bot.closeWindow(this.agent.bot.currentWindow);
+            }
+            await new Promise(resolve => setTimeout(resolve, 500));
+
             this.executing = false;
             this.currentActionLabel = '';
             this.currentActionFn = null;

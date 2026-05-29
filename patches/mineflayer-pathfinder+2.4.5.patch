@@ -1,5 +1,5 @@
 diff --git a/node_modules/mineflayer-pathfinder/index.js b/node_modules/mineflayer-pathfinder/index.js
-index b38bd30..2ca8205 100644
+index b38bd30..a14e62f 100644
 --- a/node_modules/mineflayer-pathfinder/index.js
 +++ b/node_modules/mineflayer-pathfinder/index.js
 @@ -14,6 +14,7 @@ const interactableBlocks = require('./lib/interactable.json')
@@ -38,6 +38,15 @@ index b38bd30..2ca8205 100644
        if (b && (b.type === waterType || ((b.type === ladderId || b.type === vineId) && i + 1 < path.length && path[i + 1].y < curPoint.y))) {
          curPoint.x = Math.floor(curPoint.x) + 0.5
          curPoint.y = Math.floor(curPoint.y)
+@@ -223,7 +238,7 @@ function inject (bot) {
+     const dx = n1.x - bot.entity.position.x
+     const dy = n1.y - bot.entity.position.y
+     const dz = n1.z - bot.entity.position.z
+-    const reached = Math.abs(dx) <= 0.35 && Math.abs(dz) <= 0.35 && Math.abs(dy) < 1
++    const reached = Math.abs(dx) <= 0.175 && Math.abs(dz) <= 0.175 && Math.abs(dy) < 1
+     if (minI + 1 < path.length && n1.toBreak.length === 0 && n1.toPlace.length === 0) {
+       const n2 = path[minI + 1]
+       const d2 = bot.entity.position.distanceSquared(n2)
 @@ -524,6 +539,9 @@ function inject (bot) {
          bot.activateBlock(bot.blockAt(new Vec3(placingBlock.x, placingBlock.y, placingBlock.z))).then(() => {
            lockUseBlock.release()

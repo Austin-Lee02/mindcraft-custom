@@ -203,7 +203,11 @@ export function createMindServer(host_public = false, port = 8080) {
                 return;
             }
             console.log(`${curAgentName} sending message to ${agentName}: ${json.message}`);
-            agent_connections[agentName].socket.emit('chat-message', curAgentName, json);
+            if (agent_connections[agentName]?.socket) {
+    		agent_connections[agentName].socket.emit('chat-message', curAgentName, json);
+	    } else {
+    	    	console.warn(`Cannot send message to ${agentName}, socket is null`);
+	    }
         });
 
         socket.on('set-agent-settings', (agentName, settings) => {

@@ -195,9 +195,6 @@ export class Agent {
         };
 
         if (save_data?.self_prompt) {
-            if (init_message) {
-                this.history.add('system', init_message);
-            }
             await this.self_prompter.handleLoad(save_data.self_prompt, save_data.self_prompting_state);
         }
         if (save_data?.last_sender) {

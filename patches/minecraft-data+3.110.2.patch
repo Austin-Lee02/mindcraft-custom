@@ -1,0 +1,257 @@
+diff --git a/node_modules/minecraft-data/minecraft-data/data/pc/1.21.6/protocol.json b/node_modules/minecraft-data/minecraft-data/data/pc/1.21.6/protocol.json
+index 4397a4e..bc2caa6 100644
+--- a/node_modules/minecraft-data/minecraft-data/data/pc/1.21.6/protocol.json
++++ b/node_modules/minecraft-data/minecraft-data/data/pc/1.21.6/protocol.json
+@@ -3346,7 +3346,7 @@
+         },
+         {
+           "name": "viewDistance",
+-          "type": "i8"
++          "type": "u8"
+         },
+         {
+           "name": "chatFlags",
+@@ -4643,7 +4643,7 @@
+               "type": [
+                 "mapper",
+                 {
+-                  "type": "i8",
++                  "type": "u8",
+                   "mappings": {
+                     "0": "survival",
+                     "1": "creative",
+@@ -4723,15 +4723,15 @@
+             },
+             {
+               "name": "pitch",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "yaw",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "headPitch",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "objectData",
+@@ -4809,7 +4809,7 @@
+             },
+             {
+               "name": "destroyStage",
+-              "type": "i8"
++              "type": "u8"
+             }
+           ]
+         ],
+@@ -5373,7 +5373,7 @@
+             },
+             {
+               "name": "entityStatus",
+-              "type": "i8"
++              "type": "u8"
+             }
+           ]
+         ],
+@@ -5936,7 +5936,7 @@
+             },
+             {
+               "name": "scale",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "locked",
+@@ -5959,11 +5959,11 @@
+                         },
+                         {
+                           "name": "x",
+-                          "type": "i8"
++                          "type": "u8"
+                         },
+                         {
+                           "name": "z",
+-                          "type": "i8"
++                          "type": "u8"
+                         },
+                         {
+                           "name": "direction",
+@@ -6205,11 +6205,11 @@
+             },
+             {
+               "name": "yaw",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "pitch",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "onGround",
+@@ -6269,11 +6269,11 @@
+             },
+             {
+               "name": "yaw",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "pitch",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "onGround",
+@@ -6381,7 +6381,7 @@
+           [
+             {
+               "name": "flags",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "flyingSpeed",
+@@ -7007,7 +7007,7 @@
+             },
+             {
+               "name": "headYaw",
+-              "type": "i8"
++              "type": "u8"
+             }
+           ]
+         ],
+@@ -7265,7 +7265,7 @@
+                     [
+                       {
+                         "name": "slot",
+-                        "type": "i8"
++                        "type": "u8"
+                       },
+                       {
+                         "name": "item",
+@@ -7330,7 +7330,7 @@
+             },
+             {
+               "name": "action",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "displayText",
+@@ -7460,7 +7460,7 @@
+               "type": [
+                 "mapper",
+                 {
+-                  "type": "i8",
++                  "type": "u8",
+                   "mappings": {
+                     "0": "add",
+                     "1": "remove",
+@@ -7827,7 +7827,7 @@
+           [
+             {
+               "name": "flags",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "source",
+@@ -7936,11 +7936,11 @@
+             },
+             {
+               "name": "yaw",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "pitch",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "onGround",
+@@ -8262,7 +8262,7 @@
+                                 },
+                                 {
+                                   "name": "operation",
+-                                  "type": "i8"
++                                  "type": "u8"
+                                 }
+                               ]
+                             ]
+@@ -9118,7 +9118,7 @@
+             },
+             {
+               "name": "enchantment",
+-              "type": "i8"
++              "type": "u8"
+             }
+           ]
+         ],
+@@ -9139,7 +9139,7 @@
+             },
+             {
+               "name": "mouseButton",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "mode",
+@@ -9556,7 +9556,7 @@
+           [
+             {
+               "name": "flags",
+-              "type": "i8"
++              "type": "u8"
+             }
+           ]
+         ],
+@@ -9573,7 +9573,7 @@
+             },
+             {
+               "name": "face",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "sequence",
+@@ -9864,27 +9864,27 @@
+             },
+             {
+               "name": "offset_x",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "offset_y",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "offset_z",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "size_x",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "size_y",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "size_z",
+-              "type": "i8"
++              "type": "u8"
+             },
+             {
+               "name": "mirror",

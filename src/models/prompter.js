@@ -17,6 +17,7 @@ export class Prompter {
     constructor(agent, profile) {
         this.agent = agent;
         this.profile = profile;
+	this._cachedCommandDocs = null
         const defaults_dir = path.join(__dirname, '../../profiles/defaults');
         let default_profile = JSON.parse(readFileSync(path.join(defaults_dir, '_default.json'), 'utf8'));
         let base_fp = '';
@@ -150,8 +151,11 @@ export class Prompter {
         if (prompt.includes('$ACTION')) {
             prompt = prompt.replaceAll('$ACTION', this.agent.actions.currentActionLabel);
         }
-        if (prompt.includes('$COMMAND_DOCS'))
-            prompt = prompt.replaceAll('$COMMAND_DOCS', getCommandDocs(this.agent));
+        if (prompt.includes('$COMMAND_DOCS')) {
+    	    if (!this._cachedCommandDocs)
+                this._cachedCommandDocs = getCommandDocs(this.agent);
+    	    prompt = prompt.replaceAll('$COMMAND_DOCS', this._cachedCommandDocs);
+	}
         if (prompt.includes('$CODE_DOCS')) {
             const code_task_content = messages.slice().reverse().find(msg =>
                 msg.role !== 'system' && msg.content.includes('!newAction(')
@@ -281,10 +285,20 @@ export class Prompter {
         await this.checkCooldown();
         let prompt = this.profile.saving_memory;
         prompt = await this.replaceStrings(prompt, null, null, to_summarize);
-        let resp = await this.chat_model.sendRequest([], prompt);
+        let resp;
+        try {
+            resp = await this.chat_model.sendRequest([], prompt);
+        } catch (err) {
+            console.warn('Memory saving failed, skipping summary:', err.message);
+            return this.agent.history.memory || ''; // keep existing memory if save fails
+        }
+        if (!resp) {
+            console.warn('Memory saving returned empty response, skipping.');
+            return this.agent.history.memory || '';
+        }
         await this._saveLog(prompt, to_summarize, resp, 'memSaving');
         if (resp?.includes('</think>')) {
-            const [_, afterThink] = resp.split('</think>')
+            const [_, afterThink] = resp.split('</think>');
             resp = afterThink;
         }
         return resp;

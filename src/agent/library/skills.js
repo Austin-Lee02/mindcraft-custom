@@ -99,6 +99,12 @@ export async function craftRecipe(bot, itemName, num=1) {
     const inventory = world.getInventoryCounts(bot); //Items in the agents inventory
     const requiredIngredients = mc.ingredientsFromPrismarineRecipe(recipe); //Items required to use the recipe once.
     const craftLimit = mc.calculateLimitingResource(inventory, requiredIngredients);
+
+    if (craftingTable === null && recipe.requiresTable) {
+        log(bot, `Crafting ${itemName} requires a crafting table but none could be placed or found.`);
+        if (placedTable) await collectBlock(bot, 'crafting_table', 1);
+        return false;
+    }
     
     await bot.craft(recipe, Math.min(craftLimit.num, num), craftingTable);
     if(craftLimit.num<num) log(bot, `Not enough ${craftLimit.limitingResource} to craft ${num}, crafted ${craftLimit.num}. You now have ${world.getInventoryCounts(bot)[itemName]} ${itemName}.`);
@@ -447,7 +453,7 @@ export async function collectBlock(bot, blockType, num=1, exclude=null) {
     movements.dontCreateFlow = true;
 
     // Blocks to ignore safety for, usually next to lava/water
-    const unsafeBlocks = ['obsidian'];
+    const unsafeBlocks = [];
 
     for (let i=0; i<num; i++) {
         let blocks = world.getNearestBlocksWhere(bot, block => {
@@ -829,7 +835,14 @@ export async function equip(bot, itemName) {
         await bot.equip(item, 'off-hand');
     }
     else {
-        await bot.equip(item, 'hand');
+        try {
+            if (bot.currentWindow) bot.closeWindow(bot.currentWindow);
+            await bot.equip(item, 'hand');
+        } catch (err) {
+            console.warn('Failed to equip tool, continuing without equip:', err.message);
+            log(bot, `Failed to equip ${itemName}.`);
+            return false;
+        }
     }
     log(bot, `Equipped ${itemName}.`);
     return true;
