@@ -10,13 +10,14 @@ const settings = {
     
     "base_profile": "survival", // survival, assistant, creative, or god_mode
     "profiles": [
-        //"./players/andy.json",
+        "./players/andy.json",
 	//"./players/bill.json",
 	//"./players/speedrunnerDave.json",
 	//"./players/beatthegameguy.json",
-	"./players/warriorWattle.json",
-	"./players/lumberjackLily.json",
-	"./players/minerMarley.json",
+	//"./players/warriorWattle.json",
+	//"./players/lumberjackLily.json",
+	//"./players/minerMarley.json",
+	//"./players/dpickaxeDillan.json",
         // "./profiles/gpt.json",
         // "./profiles/claude.json",
         // "./profiles/gemini.json",
@@ -33,7 +34,7 @@ const settings = {
     ],
 
     "load_memory": true, // load memory from previous session
-    "init_message": "Upon spawning into the world use !goal to set your goal based on your personality and survive as long as possible. The first thing you should do is attempt to obtain 3 logs, convert all 3 into their respective plank type, and then use these planks to craft 1 crafting table. Now craft 4 sticks, using 2 planks that you have, and then finally create a wooden pickaxe.", // sends to all on spawn
+    "init_message": "Upon spawning into the world use !goal to set your goal based on your personality and survive as long as possible. The first thing you should do is attempt to obtain 6 oak logs, convert all 3 into their respective plank type, and then use these planks to craft 1 crafting table. Now craft 4 sticks, using 2 planks that you have, and then finally create a wooden pickaxe. Only do this one time.", // sends to all on spawn
     "only_chat_with": [], // users that the bots listen to and send general messages to. if empty it will chat publicly
 
     "speak": false,

@@ -62,12 +62,12 @@ export class Gemini {
                 });
                 const response = await result.text;
                 if (!response) {
-    		    console.warn(`Gemini returned empty response, retrying in ${RETRY_DELAY/1000}s... (attempt ${attempt + 1}/${MAX_RETRIES})`);
-    		    await new Promise(r => setTimeout(r, RETRY_DELAY));
-    		    continue;
-		}
-		console.log('Received.');
-		return response;
+                    console.warn(`Gemini returned empty response, retrying in ${RETRY_DELAY/1000}s... (attempt ${attempt + 1}/${MAX_RETRIES})`);
+                    await new Promise(r => setTimeout(r, RETRY_DELAY));
+                    continue;
+                }
+                console.log('Received.');
+                return response;
             } catch (err) {
                 if (attempt < MAX_RETRIES - 1 && (err.status === 503 || err.status === 429)) {
                     console.warn(`Google API error ${err.status}, retrying in ${RETRY_DELAY/1000}s... (attempt ${attempt + 1}/${MAX_RETRIES})`);

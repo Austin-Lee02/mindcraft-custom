@@ -1,5 +1,5 @@
 diff --git a/node_modules/mineflayer-pathfinder/index.js b/node_modules/mineflayer-pathfinder/index.js
-index b38bd30..a14e62f 100644
+index b38bd30..94f55c4 100644
 --- a/node_modules/mineflayer-pathfinder/index.js
 +++ b/node_modules/mineflayer-pathfinder/index.js
 @@ -14,6 +14,7 @@ const interactableBlocks = require('./lib/interactable.json')
@@ -21,7 +21,16 @@ index b38bd30..a14e62f 100644
      const generator = bot.pathfinder.getPathFromTo(movements, bot.entity.position, goal, { timeout })
      const { value: { result, astarContext: context } } = generator.next()
      astarContext = context
-@@ -170,6 +175,16 @@ function inject (bot) {
+@@ -124,6 +129,8 @@ function inject (bot) {
+     if (!stopPathing && path.length > 0) bot.emit('path_reset', reason)
+     path = []
+     if (digging) {
++      bot.removeListener('diggingAborted', detectDiggingStopped)
++      bot.removeListener('diggingCompleted', detectDiggingStopped)
+       bot.on('diggingAborted', detectDiggingStopped)
+       bot.on('diggingCompleted', detectDiggingStopped)
+       bot.stopDigging()
+@@ -170,6 +177,16 @@ function inject (bot) {
        const curPoint = path[i]
        if (curPoint.toBreak.length > 0 || curPoint.toPlace.length > 0) break
        const b = bot.blockAt(new Vec3(curPoint.x, curPoint.y, curPoint.z))
@@ -38,7 +47,7 @@ index b38bd30..a14e62f 100644
        if (b && (b.type === waterType || ((b.type === ladderId || b.type === vineId) && i + 1 < path.length && path[i + 1].y < curPoint.y))) {
          curPoint.x = Math.floor(curPoint.x) + 0.5
          curPoint.y = Math.floor(curPoint.y)
-@@ -223,7 +238,7 @@ function inject (bot) {
+@@ -223,7 +240,7 @@ function inject (bot) {
      const dx = n1.x - bot.entity.position.x
      const dy = n1.y - bot.entity.position.y
      const dz = n1.z - bot.entity.position.z
@@ -47,7 +56,7 @@ index b38bd30..a14e62f 100644
      if (minI + 1 < path.length && n1.toBreak.length === 0 && n1.toPlace.length === 0) {
        const n2 = path[minI + 1]
        const d2 = bot.entity.position.distanceSquared(n2)
-@@ -524,6 +539,9 @@ function inject (bot) {
+@@ -524,6 +541,9 @@ function inject (bot) {
          bot.activateBlock(bot.blockAt(new Vec3(placingBlock.x, placingBlock.y, placingBlock.z))).then(() => {
            lockUseBlock.release()
            placingBlock = nextPoint.toPlace.shift()
@@ -57,7 +66,7 @@ index b38bd30..a14e62f 100644
          }, err => {
            console.error(err)
            lockUseBlock.release()
-@@ -550,6 +568,7 @@ function inject (bot) {
+@@ -550,6 +570,7 @@ function inject (bot) {
              lockEquipItem.release()
              const refBlock = bot.blockAt(new Vec3(placingBlock.x, placingBlock.y, placingBlock.z), false)
              if (!lockPlaceBlock.tryAcquire()) return
@@ -65,7 +74,7 @@ index b38bd30..a14e62f 100644
              if (interactableBlocks.includes(refBlock.name)) {
                bot.setControlState('sneak', true)
              }
-@@ -557,6 +576,7 @@ function inject (bot) {
+@@ -557,6 +578,7 @@ function inject (bot) {
                .then(function () {
                  // Dont release Sneak if the block placement was not successful
                  bot.setControlState('sneak', false)
@@ -73,7 +82,7 @@ index b38bd30..a14e62f 100644
                  if (bot.pathfinder.LOSWhenPlacingBlocks && placingBlock.returnPos) returningPos = placingBlock.returnPos.clone()
                })
                .catch(_ignoreError => {
-@@ -576,7 +596,7 @@ function inject (bot) {
+@@ -576,7 +598,7 @@ function inject (bot) {
      let dx = nextPoint.x - p.x
      const dy = nextPoint.y - p.y
      let dz = nextPoint.z - p.z
@@ -82,7 +91,7 @@ index b38bd30..a14e62f 100644
        // arrived at next point
        lastNodeTime = performance.now()
        if (stopPathing) {
-@@ -611,6 +631,9 @@ function inject (bot) {
+@@ -611,6 +633,9 @@ function inject (bot) {
      if (bot.entity.isInWater) {
        bot.setControlState('jump', true)
        bot.setControlState('sprint', false)
